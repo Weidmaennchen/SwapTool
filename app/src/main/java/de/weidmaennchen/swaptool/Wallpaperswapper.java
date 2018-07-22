@@ -33,9 +33,6 @@ public class Wallpaperswapper {
                     WallpaperManager.getInstance(context).setBitmap(myBitmap);
                 }
 
-                //ConstraintLayout mainLayout = findViewById(R.id.mainLayout);
-                //BitmapDrawable bmdraw = new BitmapDrawable(getResources(), myBitmap);
-                //mainLayout.setBackground(bmdraw);
             } catch (IOException e) {
                 e.printStackTrace();
             }
