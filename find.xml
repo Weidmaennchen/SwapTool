@@ -1,7 +1,7 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="Project 'LeakApp'" />
-    <option name="defaultScopeName" value="Project 'LeakApp'" />
-    <option name="SEARCH_SCOPE" value="Project 'LeakApp'" />
+    <option name="customScope" value="Project 'SwapTool'" />
+    <option name="defaultScopeName" value="Project 'SwapTool'" />
+    <option name="SEARCH_SCOPE" value="Project 'SwapTool'" />
   </component>
 </application>
