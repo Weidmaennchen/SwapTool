@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import java.io.FileNotFoundException;
+
 /**
  * Implementation of App Widget functionality.
  */
@@ -19,9 +21,7 @@ public class SwapWidget extends AppWidgetProvider {
         final int N = appWidgetIds.length;
 
         // Perform this loop procedure for each App Widget that belongs to this provider
-        for (int i=0; i<N; i++) {
-            int appWidgetId = appWidgetIds[i];
-
+        for (int appWidgetId : appWidgetIds) {
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
@@ -48,7 +48,7 @@ public class SwapWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);//add this line
         if (OnClickSwap.equals(intent.getAction())) {
-            Wallpaperswapper.Swap(context);
+            WallpaperSwapper.RandomSwap(context);
         }
     }
 
