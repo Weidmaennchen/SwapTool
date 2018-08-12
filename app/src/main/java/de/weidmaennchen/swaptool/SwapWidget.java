@@ -28,7 +28,6 @@ public class SwapWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.swap_button_id,
                     getPendingSelfIntent(context, OnClickSwap));
             System.out.println("set onclick");
-
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }

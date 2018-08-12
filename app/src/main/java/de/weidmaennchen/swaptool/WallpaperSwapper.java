@@ -4,6 +4,7 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Build;
@@ -30,7 +31,7 @@ public class WallpaperSwapper {
         File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath() + "/Wallpapers");
         File[] candidates = path.listFiles();
 
-        Bitmap rawBitmap = getRandomWallpaper(candidates, context);
+        Bitmap rawBitmap = getRandomWallpaper(candidates, context).getBitmap();
         SwapToBitmap(rawBitmap, context);
     }
 
@@ -40,7 +41,7 @@ public class WallpaperSwapper {
      * @param context current context
      * @return a wallpaper sized as big as the screen
      */
-    public static Bitmap getRandomWallpaper(File[] candidates, Context context)
+    public static Wallpaper getRandomWallpaper(File[] candidates, Context context)
     {
         Point size = getScreensizePoint(context);
 
@@ -49,9 +50,27 @@ public class WallpaperSwapper {
         if(candidates[index].exists())
         {
             Bitmap rawBitmap = decodeSampledBitmapFromFile(newWallpaper,size.x,size.y);
-            return getScaledDownBitmap(rawBitmap,size.x,false);
+            Bitmap scaledDownBitmap = getScaledDownBitmap(rawBitmap,size.y,false);
+            Bitmap withBorders = getCenteredImageBitmap(scaledDownBitmap, size.x, size.y, false);
+            return new Wallpaper(candidates[index], withBorders);
         }
         return null;
+    }
+
+    private static Bitmap getCenteredImageBitmap(Bitmap bitmap, int width, int height, boolean isNecessaryToKeepOrig)
+    {
+        Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawColor(0x000000);
+        float offsetx = (float)(canvas.getWidth() - bitmap.getWidth()) / 2f;
+        float offsety = (float)(canvas.getHeight() - bitmap.getHeight()) / 2f;
+        canvas.drawBitmap(bitmap,offsetx,offsety,null);
+
+        if(!isNecessaryToKeepOrig){
+            bitmap.recycle();
+        }
+
+        return resultBitmap;
     }
 
     /**
@@ -107,7 +126,8 @@ public class WallpaperSwapper {
                 inSampleSize *= 2;
             }
         }
-
+        System.out.println("Height was: " + height + ", Width was: " + width);
+        System.out.println("Sample factor: " + inSampleSize);
         return inSampleSize;
     }
 
